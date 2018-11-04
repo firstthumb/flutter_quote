@@ -1,5 +1,5 @@
 name: flutter_quote
-description: A new Flutter application.
+description: Flutter Quote Application.
 
 version: 1.0.0+1
 
@@ -11,21 +11,22 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^0.1.2
-
+  flutter_svg: ^0.6.1+1
   redux: ^3.0.0
   flutter_redux: ^0.5.2
   redux_logging: ^0.3.0
   redux_thunk: ^0.2.0
   redux_persist_flutter: ^0.6.0-rc.1
   redux_persist: ^0.7.0-rc.2
-
   http: ^0.11.3
   html_unescape: ^1.0.1+2
-
   auto_size_text: ^0.2.1
-
-  firebase_analytics: ^0.3.3
+  firebase_core: ^0.2.5+1
+  firebase_analytics: ^1.0.4
+  firebase_messaging: ^2.0.2
   flutter_crashlytics: ^0.1.1
+
+  flutter_launcher_icons: ^0.6.1
 
 dev_dependencies:
   flutter_test:
@@ -33,4 +34,18 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/icon/icon.png
+    - assets/icon/icon_android.png
+    - assets/icon/icon_ios.png
+
+flutter_icons:
+  android: true
+  ios: "Quotes"
+  image_path: "assets/icon/icon.png"
+  image_path_android: "assets/icon/icon_android.png"
+  image_path_ios: "assets/icon/icon_ios.png"
+#  adaptive_icon_background: "#FFFAFAFA"
+#  adaptive_icon_foreground: "assets/icon/icon-foreground.png"
 
