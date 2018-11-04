@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,16 @@ class _HomePageState extends State<HomePage> {
 
   _HomePageState(this.analytics, this.observer);
 
+  static final MobileAdTargetingInfo targetingInfo = new MobileAdTargetingInfo(
+    keywords: <String>['flutter', 'quote'],
+    contentUrl: 'https://flutter.io',
+    birthday: new DateTime.now(),
+    childDirected: false,
+    designedForFamilies: false,
+    gender: MobileAdGender.unknown,
+    testDevices: <String>[],
+  );
+
   final Random _random = Random();
   final List _colors = [Colors.white];
 
@@ -32,8 +43,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
+
     analytics.logAppOpen();
     analytics.setUserId(_randomString(16));
+    _setCurrentScreen();
+
+    FirebaseAdMob.instance
+        .initialize(appId: "ca-app-pub-4636547026546834~4713552358");
   }
 
   String _randomString(int length) {
@@ -67,6 +84,19 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  _loadAds() {
+    InterstitialAd interstitial = new InterstitialAd(
+      adUnitId: "ca-app-pub-4636547026546834/9506304910",
+      targetingInfo: targetingInfo,
+      listener: (MobileAdEvent event) {
+        print("InterstitialAd event is $event");
+      },
+    );
+    interstitial.load().then((_) {
+      interstitial.show();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +114,7 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               _changeColor();
               _sendQuoteChangeEvent();
+              _loadAds();
               loadQuote();
             },
             child: Container(
