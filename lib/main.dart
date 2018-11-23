@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
       builder: (context) => StoreProvider(
             store: store,
             child: MaterialApp(
+              debugShowCheckedModeBanner: false,
               home: HomePage(),
             ),
           ),

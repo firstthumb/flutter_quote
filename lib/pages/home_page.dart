@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:firebase_admob/firebase_admob.dart';
@@ -38,6 +39,8 @@ class _HomePageState extends State<HomePage> {
 
   final Random _random = Random();
   final List _colors = [Colors.white];
+
+  int adsCounter = 3;
 
   Color _selectedColor = Colors.white;
 
@@ -85,16 +88,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   _loadAds() {
-    InterstitialAd interstitial = new InterstitialAd(
-      adUnitId: "ca-app-pub-4636547026546834/9506304910",
-      targetingInfo: targetingInfo,
-      listener: (MobileAdEvent event) {
-        print("InterstitialAd event is $event");
-      },
-    );
-    interstitial.load().then((_) {
-      interstitial.show();
-    });
+    adsCounter--;
+    if (adsCounter <= 0) {
+      adsCounter = 1 + Random().nextInt(4);
+      InterstitialAd interstitial = new InterstitialAd(
+        adUnitId: Platform.isIOS
+            ? "ca-app-pub-4636547026546834/9506304910"
+            : "ca-app-pub-4636547026546834/9506304910",
+        targetingInfo: targetingInfo,
+        listener: (MobileAdEvent event) {
+          print("InterstitialAd event is $event");
+        },
+      );
+      interstitial.load().then((status) {
+        if (status) {
+          interstitial.show();
+        }
+      });
+    }
   }
 
   @override
